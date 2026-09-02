@@ -2,7 +2,8 @@
 
 set -Eeuo pipefail
 # shellcheck source=lib.sh
-# shellcheck source=lib.sh
+# Le chemin est calculé pour permettre l'exécution hors du dépôt.
+# shellcheck disable=SC1091
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/lib.sh"
 
 require_command git
