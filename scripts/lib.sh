@@ -5,6 +5,8 @@ set -Eeuo pipefail
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 UPSTREAM_LOCK="$PROJECT_ROOT/upstream.env"
 CACHE_ROOT="${MDAD_CACHE_ROOT:-$PROJECT_ROOT/.cache}"
+# Used by the executable scripts that source this library.
+# shellcheck disable=SC2034
 UPSTREAM_DIR="$CACHE_ROOT/matrix-docker-ansible-deploy"
 INVENTORY_DIR="${POC_INVENTORY_DIR:-$PROJECT_ROOT/runtime/inventory}"
 

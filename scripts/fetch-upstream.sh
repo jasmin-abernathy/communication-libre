@@ -2,6 +2,7 @@
 
 set -Eeuo pipefail
 # shellcheck source=lib.sh
+# shellcheck source=lib.sh
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/lib.sh"
 
 require_command git
