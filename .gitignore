@@ -1,0 +1,33 @@
+# Secrets et configuration locale
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+credentials/
+
+# Sauvegardes et données
+backups/
+data/
+uploads/
+*.sql
+*.sqlite
+*.db
+
+# Environnement local
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.log
+
+# Dépendances et builds
+node_modules/
+vendor/
+dist/
+build/
+coverage/
