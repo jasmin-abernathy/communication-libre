@@ -1,0 +1,24 @@
+name: Validate infrastructure scaffold
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install linters
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes shellcheck
+          python3 -m pip install --disable-pip-version-check 'yamllint>=1.35,<2'
+
+      - name: Validate examples and scripts
+        run: bash scripts/check-config.sh --examples-only

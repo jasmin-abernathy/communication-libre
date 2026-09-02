@@ -1,0 +1,76 @@
+---
+# Configuration de référence du POC.
+#
+# Adaptée des exemples matrix-docker-ansible-deploy et de la documentation du
+# rôle Jitsi. Les secrets CHANGE_ME sont remplacés dans runtime/ par
+# scripts/init-runtime.sh et ne doivent jamais être commités.
+
+matrix_playbook_migration_validated_version: v2026.05.18.0
+
+# Décisions structurantes : changer ces valeurs après installation peut imposer
+# une réinstallation et une perte de données.
+matrix_domain: example.invalid
+matrix_homeserver_implementation: synapse
+matrix_homeserver_generic_secret_key: "CHANGE_ME_MATRIX_SECRET"
+postgres_connection_password: "CHANGE_ME_POSTGRES_PASSWORD"
+
+# Le playbook gère Traefik et les certificats Let's Encrypt.
+matrix_playbook_reverse_proxy_type: playbook-managed-traefik
+devture_systemd_docker_base_ipv6_enabled: true
+
+# POC fermé : pas de fédération et pas d'annuaire exposé à l'extérieur.
+matrix_homeserver_federation_enabled: false
+matrix_synapse_federation_port_enabled: false
+matrix_synapse_reverse_proxy_companion_federation_api_enabled: false
+matrix_synapse_allow_public_rooms_over_federation: false
+
+# Comptes créés uniquement par l'administrateur pendant le pilote.
+matrix_synapse_enable_registration: false
+matrix_synapse_enable_registration_without_verification: false
+
+# Element Web : interface française, claire et attachée au seul serveur du POC.
+matrix_client_element_registration_enabled: false
+matrix_client_element_default_country_code: "FR"
+matrix_client_element_default_theme: "light"
+matrix_client_element_brand: "Communication libre — POC"
+matrix_client_element_disable_custom_urls: true
+matrix_client_element_disable_guests: true
+matrix_client_element_room_directory_servers: []
+matrix_client_element_location_sharing_enabled: false
+
+# Pas d'intégration tierce, de rapport de bug externe ou d'IA ajoutée.
+# L'adresse Jitsi préférée est configurée automatiquement quand jitsi_enabled
+# vaut true.
+matrix_client_element_integrations_ui_url: ""
+matrix_client_element_integrations_rest_url: ""
+matrix_client_element_integrations_widgets_urls: []
+matrix_client_element_bug_report_endpoint_url: null
+matrix_bot_baibot_enabled: false
+
+# Jitsi peut être utilisé depuis Element ou directement sur jitsi.<domaine>.
+# Seul un compte interne peut démarrer une réunion ; les invités peuvent ensuite
+# la rejoindre et une salle d'attente est activée.
+jitsi_enabled: true
+jitsi_enable_auth: true
+jitsi_enable_guests: true
+jitsi_enable_lobby: true
+jitsi_disable_gravatar: true
+jitsi_timezone: "Europe/Paris"
+jitsi_prosody_auth_internal_accounts:
+  - username: "pilot-admin"
+    password: "CHANGE_ME_JITSI_PASSWORD"
+
+# Réglages sobres pour limiter CPU et bande passante pendant le petit pilote.
+jitsi_web_config_resolution_width_ideal_and_max: 480
+jitsi_web_config_resolution_height_ideal_and_max: 240
+jitsi_web_custom_config_extension: |
+  config.enableLayerSuspension = true;
+  config.disableAudioLevels = true;
+  config.channelLastN = 4;
+  config.requireDisplayName = true;
+  config.startAudioOnly = true;
+
+# Jitsi active automatiquement coturn dans ce playbook. Une IP explicite évite
+# l'appel à un service externe de détection d'adresse.
+coturn_turn_external_ip_addresses:
+  - "192.0.2.10"

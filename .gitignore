@@ -1,4 +1,4 @@
-# Secrets et configuration locale
+# Secrets et configuration d'exploitation
 .env
 .env.*
 !.env.example
@@ -8,6 +8,16 @@
 *.pfx
 secrets/
 credentials/
+runtime/
+
+# Dépendances téléchargées
+.cache/
+
+# Inventaires réels : seuls les exemples doivent être versionnés
+inventory/hosts
+inventory/host_vars/*/vars.yml
+!inventory/hosts.example
+!inventory/host_vars/*/vars.yml.example
 
 # Sauvegardes et données
 backups/
@@ -25,7 +35,7 @@ Thumbs.db
 *.swp
 *.log
 
-# Dépendances et builds
+# Dépendances et builds éventuels
 node_modules/
 vendor/
 dist/

@@ -1,0 +1,5 @@
+# Exemple sans adresse réelle. Le script init-runtime.sh crée une copie non versionnée.
+# Un compte SSH dédié avec sudo est préférable à une connexion root directe.
+
+[matrix_servers]
+matrix.example.invalid ansible_host=192.0.2.10 ansible_ssh_user=deploy ansible_become=true ansible_become_user=root
