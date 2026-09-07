@@ -30,6 +30,18 @@ Ce dépôt porte un POC générique de communication libre pour collectifs. Ne j
 - Préserver la possibilité de changer d'hébergeur.
 - Viser d'abord un pilote de 10 à 30 personnes ; ne pas surdimensionner prématurément.
 
+## Budget GitHub Actions
+
+- Travailler par lots : plusieurs modifications, une validation, un build.
+- Ne pas lancer de build lourd après chaque petit commit.
+- README, documentation et ce fichier ne doivent pas déclencher de CI.
+- Les APK/ZIP/artefacts de distribution doivent être construits manuellement ou sur tag de publication, sauf besoin explicite de packaging continu.
+- Garder automatiques les contrôles légers de syntaxe, sécurité et sûreté de déploiement sur les chemins de code concernés.
+- Utiliser filtres de chemins, timeouts, caches et `concurrency` avec `cancel-in-progress: true` lorsque l'interruption est sûre.
+- Ne pas annuler un déploiement de production en cours sauf s'il est explicitement conçu pour être interrompu sans risque.
+- Regrouper les modifications automatisées liées en aussi peu de pushes que possible.
+- Préférer un runner self-hosted pour les builds lourds dès qu'il est disponible.
+
 ## Validation
 
 Avant de considérer une tâche terminée :
