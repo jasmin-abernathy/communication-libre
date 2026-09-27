@@ -1,6 +1,6 @@
 # Architecture envisagée pour le pilote
 
-Le laboratoire compare deux architectures légères avant de retenir une messagerie. Mattermost n'est plus une cible prioritaire et l'ancien déploiement Matrix/Element reste historique.
+Databag est l'architecture de travail du pilote. Le laboratoire attend un démarrage réel et des essais sur appareils avant toute ouverture à des participants. Tuwunel + Cinny reste une comparaison archivée ; Mattermost n'est pas retenu et l'ancien déploiement Matrix/Element reste historique.
 
 ## Parcours participant visé
 
@@ -21,7 +21,7 @@ Le laboratoire compare deux architectures légères avant de retenir une message
 
 Databag a l'avantage d'un service principal unique. Le chiffrement de bout en bout est lié aux sujets `sealed` et doit être expliqué comme tel. Les appels de groupe ne sont pas considérés comme disponibles tant que le backlog amont les présente encore comme travail à réaliser.
 
-## Architecture B — Tuwunel + Cinny
+## Alternative archivée — Tuwunel + Cinny
 
 | Élément | Rôle | État |
 |---|---|---|
@@ -52,4 +52,4 @@ Avant tout pilote avec de vraies personnes :
 - journaux et captures de test expurgés ;
 - notifications mesurées sur Android/iPhone, Wi-Fi et réseau mobile.
 
-La décision finale est **en attente des essais appareils** décrits dans [`test-appareils.md`](test-appareils.md).
+La mise en service de Databag est **en attente des essais appareils** décrits dans [`test-appareils.md`](test-appareils.md).

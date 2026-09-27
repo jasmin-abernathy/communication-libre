@@ -1,6 +1,6 @@
 # Politique de sécurité
 
-Ce dépôt prépare une infrastructure de communication potentiellement destinée à des échanges sensibles. Le code et la configuration présents ici ne doivent jamais être considérés comme sûrs par défaut sans audit, durcissement et tests adaptés au contexte réel.
+Ce dépôt prépare un laboratoire Databag de communication. Le code et la configuration présents ici ne doivent jamais être considérés comme sûrs par défaut sans audit, durcissement et tests adaptés au contexte réel.
 
 ## Signaler un problème
 
@@ -28,9 +28,10 @@ Ne jamais committer :
 - procédure de départ d'un membre ;
 - récupération sécurisée des clés et appareils ;
 - supervision et alertes ;
-- test de charge Jitsi ;
+- essai du groupe Databag reproduisant le ticket amont #195 ;
+- validation du secret d'administration du laboratoire et examen du script amont qui le concatène dans une commande SQLite ;
 - information claire des participants sur les limites du dispositif.
 
 ## Limites à rappeler
 
-Le chiffrement de bout en bout protège le contenu dans les usages compatibles, mais pas toutes les métadonnées. Un terminal compromis, une mauvaise gestion des clés, un pont externe ou une sauvegarde mal protégée peuvent annuler une partie importante des garanties.
+Dans Databag, le chiffrement de bout en bout concerne uniquement les sujets `sealed`. Il protège le contenu dans les usages compatibles, mais pas toutes les métadonnées. Un terminal compromis, une mauvaise gestion des clés, un pont externe ou une sauvegarde mal protégée peuvent annuler une partie importante des garanties.

@@ -1,4 +1,4 @@
-> **Ancienne piste Matrix/Element.** Ce guide n'installe pas la solution Mattermost retenue pour le prochain pilote. Voir [la décision 0002](decisions/0002-messagerie-web.md) et le [README](../README.md). Les commandes Makefile historiques exigent `LEGACY_MATRIX_POC=1`.
+> **Ancienne piste Matrix/Element.** Ce guide n'installe pas Databag, choisi pour le prochain laboratoire. Pour Databag, voir [le laboratoire](../lab/README.md). Voir [la décision 0002](decisions/0002-messagerie-web.md) et le [README](../README.md). Les commandes Makefile historiques exigent `LEGACY_MATRIX_POC=1`.
 
 # Installation du POC
 

@@ -1,12 +1,12 @@
 # Contributing
 
-Contributions to this generic Matrix / Element / Jitsi communication POC are welcome.
+Contributions to this browser-first communication POC are welcome. Databag is the active lab; Matrix / Element / Jitsi files are historical.
 
 Before submitting a change:
 
 - never commit secrets, real inventories, private keys, backups or personal data;
 - use `example.invalid` and synthetic values in versioned examples;
-- preserve encrypted rooms by default for sensitive use cases;
+- do not claim all Databag topics are end-to-end encrypted: only sealed topics use that mode, and it has not been validated for sensitive use;
 - document metadata, logging, backup and account-recovery trade-offs honestly;
 - do not present this repository as an official project of any political party or organisation without explicit documented approval;
 - keep deployments reproducible and versions pinned;

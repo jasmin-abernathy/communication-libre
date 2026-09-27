@@ -1,8 +1,8 @@
 # Laboratoire de messagerie Web
 
-Ce répertoire sert uniquement à comparer des solutions avec des comptes et contenus factices. Il ne constitue pas un déploiement de production et ne doit pas être exposé publiquement tel quel.
+Ce répertoire sert à préparer Databag, piste active du pilote, et conserve Tuwunel + Cinny comme comparaison avec des comptes et contenus factices. Il ne constitue pas un déploiement de production et ne doit pas être exposé publiquement tel quel.
 
-## Pistes testées en priorité
+## Piste active et comparaison en réserve
 
 | Piste | Version verrouillée | Pourquoi ce choix de version |
 |---|---|---|
@@ -10,7 +10,7 @@ Ce répertoire sert uniquement à comparer des solutions avec des comptes et con
 | Tuwunel | `v1.9.3` | release amont publiée le 2026-09-25 |
 | Cinny | `v4.12.7` | release amont publiée le 2026-09-15 |
 
-Databag et Tuwunel sont sous Apache-2.0. Cinny est sous AGPL-3.0-only. Mattermost reste documenté comme ancienne hypothèse de comparaison mais aucun laboratoire Mattermost n'est maintenu ici.
+Databag et Tuwunel sont sous Apache-2.0. Cinny est sous AGPL-3.0-only. Le pilote se concentre sur Databag. Tuwunel + Cinny reste en réserve si Databag échoue sur un critère bloquant ; aucun laboratoire Mattermost n'est maintenu ici.
 
 ## Ce que la vérification statique confirme
 
@@ -39,7 +39,10 @@ Préparer et valider la configuration Compose avant de construire :
 ```sh
 cd lab/databag
 cp .env.example .env
-# Modifier au minimum le mot de passe d'administration dans .env.
+# Générer un secret de 48 caractères hexadécimaux avec :
+# python3 -c 'import secrets; print(secrets.token_hex(24))'
+# Le copier dans DATABAG_ADMIN_PASSWORD de .env, puis vérifier sa forme :
+python3 check-admin-secret.py .env
 docker compose --env-file .env config --quiet
 docker compose --env-file .env up -d --build
 docker compose --env-file .env ps
@@ -47,7 +50,7 @@ docker compose --env-file .env logs --tail=100 databag
 curl -fsS http://127.0.0.1:7000/ >/dev/null
 ```
 
-Le `curl` confirme uniquement que le service HTTP répond. Il ne prouve ni les groupes, ni le chiffrement, ni les notifications.
+La vérification du secret est nécessaire car le script de démarrage de Databag l'insère dans une instruction SQLite construite par concaténation : éviter notamment les apostrophes. Cette validation locale ne corrige pas le code amont ; le secret figure aussi dans la configuration du conteneur accessible à l'administrateur Docker. Le `curl` confirme uniquement que le service HTTP répond. Il ne prouve ni les groupes, ni le chiffrement, ni les notifications.
 
 Ouvrir `http://127.0.0.1:7000`. Créer uniquement des comptes factices depuis le tableau de bord d'administration. Pour l'essai de confidentialité, comparer explicitement un sujet normal et un sujet **sealed** ; ne pas assimiler tout Databag à du chiffrement de bout en bout.
 
@@ -64,7 +67,9 @@ docker compose --env-file .env down --volumes --remove-orphans
 rm -f .env
 ```
 
-## Essai B — Tuwunel + Cinny
+## Comparaison en réserve — Tuwunel + Cinny
+
+Ne lancer cette configuration que si Databag échoue sur un critère indispensable. La procédure historique reste disponible ci-dessous.
 
 Préparer puis contrôler les deux services :
 
@@ -144,4 +149,4 @@ Les fichiers YAML et JSON de ce laboratoire ont été contrôlés statiquement. 
 
 Les tags `v1.9.3` de Tuwunel et `v4.12.7` de Cinny correspondent aux releases consultées le 2026-09-27 ; leurs workflows amont publient des images de conteneur lors des releases. Databag est construit directement depuis un commit amont verrouillé pour éviter la dépendance à un tag `latest`.
 
-Suivre ensuite [`docs/test-appareils.md`](../docs/test-appareils.md). La décision finale reste **en attente des essais réels**.
+Suivre ensuite [`docs/test-appareils.md`](../docs/test-appareils.md). Databag est la piste choisie ; l'ouverture du pilote reste **en attente des essais réels**.

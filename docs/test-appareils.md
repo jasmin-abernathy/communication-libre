@@ -4,7 +4,7 @@
 
 - 4 à 6 comptes factices maximum pour le premier passage ;
 - aucun message privé réel, numéro de téléphone, adresse, fichier client ou donnée sensible ;
-- mêmes scénarios pour Databag puis Tuwunel + Cinny, sauf lorsqu'une limitation de code est déjà établie ;
+- exécuter d'abord les scénarios Databag ; reprendre la colonne Tuwunel + Cinny seulement si Databag échoue sur un critère indispensable ;
 - noter les résultats observés, pas ce que la documentation promet ;
 - ne jamais recopier le contenu des messages dans une remontée d'incident : utiliser un identifiant de scénario, l'heure, l'appareil et le symptôme ;
 - conserver **non testé** tant qu'un humain n'a pas réellement exécuté le scénario sur l'appareil indiqué.
@@ -62,6 +62,10 @@ Tester au moins :
 | A8 | méthode de récupération préparée | supprimer la session locale de test puis se reconnecter | étapes nécessaires, accès aux clés et aux anciens messages |
 | A9 | groupe de trois comptes | révoquer/retirer un compte | accès résiduel, clarté du départ, effet sur le groupe |
 | A10 | sauvegarde de données factices et procédure de restauration | arrêter, sauvegarder, recréer/restaurer puis relancer | comptes/historique récupérés, durée, erreur exacte |
+
+## Priorité et critères d'arrêt
+
+Databag est la piste choisie. Exécuter A1, A2 et A3 avant de préparer un pilote. Reproduire **exactement** le scénario de l'issue [#195](https://github.com/balzack/databag/issues/195) : A a B et C en contacts, B n'a pas C, puis B ouvre le groupe. Si le client plante ou si des messages sont perdus, suspendre l'ouverture aux participants ; ne pas masquer le défaut en imposant une manipulation non documentée. Vérifier ensuite A8 (clé `sealed`), A10 (restauration) et A4/A5 (alertes) avant décision d'ouverture. Les autres scénarios restent obligatoires pour conclure.
 
 ## État courant
 

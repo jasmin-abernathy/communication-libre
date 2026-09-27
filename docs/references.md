@@ -8,6 +8,7 @@ Vérifiées le 2026-09-27 pour préparer le laboratoire.
 
 - dépôt `balzack/databag` — serveur et clients, Apache-2.0 ;
 - `README.md` — installation Docker, Web/mobile, sujets `sealed`, appels et notifications annoncées ;
+- [`net/server/entrypoint.sh` au commit épinglé](https://github.com/balzack/databag/blob/45343338582b394f4f5fdb4b7e271ea1dc8dd5fd/net/server/entrypoint.sh) — concatène `ADMIN` dans une instruction SQLite ; contrôler le format du secret du laboratoire avant démarrage et suivre une correction amont avant usage sensible ;
 - `app/client/web/src/settings/useSettings.hook.ts` — demande d'autorisation de notification, enregistrement du service worker et souscription Web Push ;
 - `doc/design_overview.md` — modèle de chiffrement et limites ;
 - `doc/backlog.md` — appels de groupe encore au backlog ;

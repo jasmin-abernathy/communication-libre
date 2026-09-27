@@ -6,7 +6,7 @@ Date de vérification : 2026-09-27. Cette note distingue les fonctions annoncée
 
 Une invitation et une URL doivent suffire pour rejoindre le groupe depuis téléphone ou ordinateur. L'application native peut exister, mais ne doit pas être obligatoire par défaut. Le laboratoire privilégie le moins de dépendances serveur possible tout en gardant une confidentialité compréhensible et une exploitation réaliste.
 
-## Pistes prioritaires
+## Piste choisie et comparaison de recherche
 
 | Assemblage | Version/état vérifié | Licence | Points forts à confirmer | Risque principal à tester |
 |---|---|---|---|---|
@@ -39,12 +39,12 @@ Le code du tag `v4.12.7` permet les notifications système quand le client est a
 
 Mattermost reste documenté pour mémoire, mais n'est plus au centre de la décision. Son interface Web est mature, mais la messagerie standard n'apporte pas le chiffrement de bout en bout recherché pour certains usages et son schéma n'est pas retenu comme point de départ. Aucun laboratoire Mattermost n'est ajouté.
 
-## Assemblage retenu pour le laboratoire
+## Suite décidée après cette recherche
 
-1. **Essai A : Databag**, construit depuis le commit source verrouillé, sans vidéo de groupe.
-2. **Essai B : Tuwunel `v1.9.3` + Cinny `v4.12.7`**, fédération désactivée.
-3. Même fiche d'essai et mêmes données factices pour les deux, en traitant l'absence de Web Push fermé dans Cinny comme une limitation déjà démontrée.
+1. **Databag est choisi comme piste active**, construit depuis le commit source verrouillé, sans vidéo de groupe.
+2. Tuwunel `v1.9.3` + Cinny `v4.12.7` reste une comparaison en réserve, fédération désactivée.
+3. Exécuter la fiche d'essai Databag avec données factices avant toute ouverture ; reprendre l'autre piste seulement si un critère essentiel échoue.
 4. Aucun pont entre protocoles.
-5. Décision finale uniquement après essais sur appareils réels. Si les notifications écran verrouillé sans application sont indispensables, Tuwunel devra être évalué avec un autre client Web avant de conserver cette piste.
+5. Mise en service uniquement après essais sur appareils réels. Si les notifications écran verrouillé sans application sont indispensables, Tuwunel devra être évalué avec un autre client Web avant de conserver cette piste.
 
 Les configurations sont dans [`../lab/`](../lab/README.md) et la grille commune dans [`test-appareils.md`](test-appareils.md).

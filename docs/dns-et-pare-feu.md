@@ -1,4 +1,4 @@
-> **Ancienne piste Matrix/Element.** Ce guide n'installe pas la solution Mattermost retenue pour le prochain pilote. Voir [la décision 0002](decisions/0002-messagerie-web.md) et le [README](../README.md). Les commandes Makefile historiques exigent `LEGACY_MATRIX_POC=1`.
+> **Ancienne piste Matrix/Element.** Ce guide ne décrit pas le laboratoire Databag choisi pour le prochain pilote. Pour ce dernier, voir [lab/README.md](../lab/README.md). Voir [la décision 0002](decisions/0002-messagerie-web.md) et le [README](../README.md). Les commandes Makefile historiques exigent `LEGACY_MATRIX_POC=1`.
 
 # DNS et pare-feu
 

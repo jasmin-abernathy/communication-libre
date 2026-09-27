@@ -2,7 +2,7 @@
 
 ## Positionnement
 
-Ce dépôt porte un POC générique de communication libre pour collectifs. Le laboratoire prioritaire compare **Databag** et **Tuwunel + Cinny**. Mattermost n'est plus la piste principale : le conserver seulement comme référence de comparaison si les deux alternatives légères échouent. L'overlay Matrix/Element historique ne doit pas être présenté comme le déploiement cible. Ne jamais présenter le projet comme un outil officiel de La France insoumise ou d'une autre organisation sans validation explicite et traçable.
+Ce dépôt porte un POC générique de communication libre pour collectifs. **Databag est le choix de travail pour le pilote** ; sa validation attend des essais Docker et sur appareils. Tuwunel + Cinny reste un laboratoire comparatif sans développement prioritaire. Mattermost n'est pas retenu. L'overlay Matrix/Element historique ne doit pas être présenté comme le déploiement cible. Ne jamais présenter le projet comme un outil officiel de La France insoumise ou d'une autre organisation sans validation explicite et traçable.
 
 ## Langue et documentation
 
@@ -29,7 +29,7 @@ Ce dépôt porte un POC générique de communication libre pour collectifs. Le l
 - Ajouter des contrôles automatisés avant tout déploiement réel.
 - Préserver la possibilité de changer d'hébergeur.
 - Viser d'abord un pilote de 10 à 30 personnes ; ne pas surdimensionner prématurément.
-- Garder Databag et Tuwunel + Cinny dans des laboratoires isolés ; ne pas créer de pont entre eux pour la comparaison initiale.
+- Garder Databag et Tuwunel + Cinny dans des laboratoires isolés ; ne pas créer de pont entre eux.
 
 ## Budget GitHub Actions
 
