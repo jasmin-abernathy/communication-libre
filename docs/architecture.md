@@ -1,9 +1,11 @@
-# Architecture cible du pilote
+# Architecture envisagée pour le pilote
+
+Le logiciel reste à choisir après [comparaison des briques GitHub](recherche-briques-messagerie-2026-09-27.md). Le tableau Mattermost ci-dessous décrit une hypothèse, non une cible validée.
 
 ## Parcours participant
 
 1. La personne ouvre l'URL du collectif sur téléphone ou ordinateur.
-2. Elle accepte une invitation et crée un seul compte Mattermost.
+2. Elle accepte une invitation et crée un compte dans la messagerie retenue.
 3. Elle rejoint les canaux d'annonces et de discussion dans le navigateur.
 4. Elle teste les appels audio ; la vidéo de groupe, si nécessaire, s'ouvre par un lien Jitsi distinct dans le navigateur.
 
@@ -13,7 +15,7 @@ L'application native est une option à évaluer après le premier essai, notamme
 
 | Élément | Rôle | État |
 |---|---|---|
-| Mattermost Team Edition | Messagerie Web, comptes, canaux, fichiers, audio et partage d'écran | Retenu, non déployé |
+| Mattermost Team Edition | Messagerie Web, comptes, canaux, fichiers, audio et partage d'écran | Hypothèse, non déployée |
 | PostgreSQL | Base de données Mattermost | À installer avec le serveur |
 | Proxy HTTPS | TLS et accès public à une URL unique | À choisir et configurer |
 | Sauvegardes hors serveur | Restaurer la base, les fichiers et la configuration | À mettre en place et tester |
