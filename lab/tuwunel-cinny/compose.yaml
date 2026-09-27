@@ -25,7 +25,7 @@ services:
     restart: "no"
     depends_on:
       homeserver:
-        condition: service_started
+        condition: service_healthy
     ports:
       - "${CINNY_BIND:-127.0.0.1}:${CINNY_HTTP_PORT:-8080}:80"
     volumes:

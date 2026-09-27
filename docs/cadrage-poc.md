@@ -19,7 +19,7 @@ Le laboratoire compare en priorité **Databag** et **Tuwunel + Cinny**. Mattermo
 - arrivée par URL et invitation sans installation ;
 - premier message et groupe fonctionnels sur mobile et ordinateur ;
 - pas de bug bloquant dans les groupes ;
-- notifications suffisamment fiables ou limite explicitement acceptée ;
+- notifications suffisamment fiables ou limite explicitement acceptée ; pour Cinny `v4.12.7`, l'absence de Web Push navigateur fermé est déjà établie par le code ;
 - récupération après déconnexion/perte d'appareil comprise ;
 - chiffrement correctement compris par les participants ;
 - sauvegarde/restauration réussie ;

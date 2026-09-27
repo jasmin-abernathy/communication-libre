@@ -33,6 +33,8 @@ Databag a l'avantage d'un service principal unique. Le chiffrement de bout en bo
 
 Le laboratoire désactive la fédération. Le client et le serveur restent deux briques, mais l'interface est servie dans le navigateur et Tuwunel évite la pile Synapse/Element plus lourde étudiée auparavant.
 
+**Limite établie du couple actuel :** Cinny `v4.12.7` ne crée pas de souscription Web Push et n'a pas de gestionnaire `push` dans son service worker. Les notifications système sont produites pendant que le client Web synchronise. Cette architecture ne satisfait donc pas, telle quelle, le critère « alerte avec navigateur fermé » ; conserver Tuwunel sur ce critère suppose de tester un autre client ou d'accepter un canal facultatif distinct.
+
 ## Anciennes hypothèses
 
 Mattermost reste un comparateur fonctionnel mais n'est pas développé dans le laboratoire actuel. Matrix/Element + Jitsi, Coturn et l'overlay Ansible existant sont conservés uniquement comme historique technique et nécessitent `LEGACY_MATRIX_POC=1` pour leurs commandes.

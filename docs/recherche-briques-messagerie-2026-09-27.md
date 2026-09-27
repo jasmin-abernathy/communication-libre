@@ -11,7 +11,7 @@ Une invitation et une URL doivent suffire pour rejoindre le groupe depuis télé
 | Assemblage | Version/état vérifié | Licence | Points forts à confirmer | Risque principal à tester |
 |---|---|---|---|---|
 | **Databag** | `main` verrouillé sur `45343338582b394f4f5fdb4b7e271ea1dc8dd5fd`, dernier commit observé le 2026-06-14 | Apache-2.0 | un service principal, Web Push dans le client Web, sujets `sealed` E2EE | bug de groupe ouvert en août 2026, récupération de clé, alertes navigateur fermé |
-| **Tuwunel + Cinny** | Tuwunel `v1.9.3` (2026-09-25) + Cinny `v4.12.7` (2026-09-15) | Apache-2.0 + AGPL-3.0-only | pile Matrix plus légère, client Web, salons chiffrés | récupération des clés, mobile Web/PWA, notifications, maturité récente des appels |
+| **Tuwunel + Cinny** | Tuwunel `v1.9.3` (2026-09-25) + Cinny `v4.12.7` (2026-09-15) | Apache-2.0 + AGPL-3.0-only | pile Matrix plus légère, client Web, salons chiffrés | **pas de Web Push navigateur fermé dans Cinny v4.12.7**, récupération des clés, maturité récente des appels |
 
 ### Databag
 
@@ -33,7 +33,7 @@ Un ticket sur les pushers apparu avec `1.8.3` en août 2026 a été fermé aprè
 
 Cinny `v4.12.7` a été publié le 2026-09-15 et son workflow de release publie également une image sur GHCR et Docker Hub. L'application reste d'abord un client Web : une demande PWA est encore ouverte et une proposition de clients mobiles de 2025 décrit explicitement les limites du navigateur mobile, notamment pour les notifications et le stockage sur iOS.
 
-Le code actuel enregistre bien un service worker, principalement utilisé pour la gestion des médias authentifiés ; cela ne suffit pas à considérer le Web Push mobile comme validé. Les appels voix/vidéo ont reçu des évolutions en 2026, donc leur parcours doit être testé séparément.
+Le code du tag `v4.12.7` permet les notifications système quand le client est actif : il demande la permission via `window.Notification.requestPermission()` puis crée des notifications avec `new window.Notification(...)` pendant la synchronisation Matrix. En revanche, aucune utilisation de `PushManager` ni aucun gestionnaire d'événement `push` n'est présent ; le service worker sert à intercepter les requêtes de médias authentifiés. **Cette version n'implémente donc pas le Web Push nécessaire à une alerte lorsque le navigateur est réellement fermé.** Les appels voix/vidéo ont reçu des évolutions en 2026, donc leur parcours doit être testé séparément.
 
 ## Comparateur secondaire : Mattermost
 
@@ -43,8 +43,8 @@ Mattermost reste documenté pour mémoire, mais n'est plus au centre de la déci
 
 1. **Essai A : Databag**, construit depuis le commit source verrouillé, sans vidéo de groupe.
 2. **Essai B : Tuwunel `v1.9.3` + Cinny `v4.12.7`**, fédération désactivée.
-3. Même fiche d'essai et mêmes données factices pour les deux.
+3. Même fiche d'essai et mêmes données factices pour les deux, en traitant l'absence de Web Push fermé dans Cinny comme une limitation déjà démontrée.
 4. Aucun pont entre protocoles.
-5. Décision finale uniquement après essais sur appareils réels.
+5. Décision finale uniquement après essais sur appareils réels. Si les notifications écran verrouillé sans application sont indispensables, Tuwunel devra être évalué avec un autre client Web avant de conserver cette piste.
 
 Les configurations sont dans [`../lab/`](../lab/README.md) et la grille commune dans [`test-appareils.md`](test-appareils.md).

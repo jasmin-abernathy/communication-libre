@@ -30,7 +30,7 @@ Le Web client contient un mécanisme Web Push avec service worker, mais sa fiabi
 
 ### Tuwunel + Cinny
 
-Tuwunel est activement maintenu et Cinny reste une interface Web légère, mais l'expérience mobile de Cinny et les notifications lorsque le navigateur est fermé ne doivent pas être supposées fiables. La gestion des clés et la récupération après perte de session sont des critères de sortie, pas des détails techniques secondaires.
+Tuwunel est activement maintenu et Cinny reste une interface Web légère. En revanche, le code de Cinny `v4.12.7` ne met pas en place de Web Push : ses notifications navigateur reposent sur `window.Notification` pendant que le client tourne. **Cette combinaison ne fournit donc pas d'alerte Web lorsque le navigateur est réellement fermé** sans changer de client ou accepter un autre canal (application native facultative, e-mail, etc.). La gestion des clés et la récupération après perte de session restent également des critères de sortie.
 
 ## Frontière avec Verger Associations
 
