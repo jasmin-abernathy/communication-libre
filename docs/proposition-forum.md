@@ -1,3 +1,5 @@
+> **Archive de l'ancienne piste Matrix/Element.** Ce contenu ne décrit pas la solution retenue pour le prochain pilote. Voir [la décision 0002](decisions/0002-messagerie-web.md). Ne pas utiliser ce document comme proposition ou procédure actuelle.
+
 # Proposition de première contribution
 
 ## Version prête à publier

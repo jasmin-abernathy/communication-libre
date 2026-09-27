@@ -1,3 +1,5 @@
+> **Ancienne piste Matrix/Element.** Ce guide n'installe pas la solution Mattermost retenue pour le prochain pilote. Voir [la décision 0002](decisions/0002-messagerie-web.md) et le [README](../README.md). Les commandes Makefile historiques exigent `LEGACY_MATRIX_POC=1`.
+
 # Installation du POC
 
 Ce guide prépare un pilote fermé Matrix/Element + Jitsi. Il ne constitue pas une procédure de mise en production pour des échanges critiques.

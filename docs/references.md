@@ -1,6 +1,14 @@
 # Références techniques et réutilisation
 
-## Socle retenu
+## Socle retenu pour le prochain pilote
+
+- [Mattermost Team Edition](https://docs.mattermost.com/product-overview/editions-and-offerings.html) — messagerie auto-hébergée accessible dans le navigateur ; nouveau déploiement encore à construire.
+- [Disponibilité des clients](https://docs.mattermost.com/end-user-guide/access/client-availability) — fonctions Web et mobile.
+- [Appels et limites de la vidéo](https://docs.mattermost.com/end-user-guide/collaborate/make-calls) — audio et partage d'écran ; vidéo limitée.
+- [Options de chiffrement](https://docs.mattermost.com/deployment-guide/encryption-options.html) — ne pas assimiler TLS et chiffrement de bout en bout.
+- [Jitsi Meet](https://jitsi.org/jitsi-meet/) — option pour une vidéo de groupe par lien navigateur.
+
+## Ancien socle Matrix, conservé comme référence historique
 
 - [matrix-docker-ansible-deploy](https://github.com/spantaleev/matrix-docker-ansible-deploy) — playbook Ansible/Docker sous AGPL-3.0-or-later ; révision actuellement verrouillée dans `upstream.env`.
 - [Démarrage rapide du playbook](https://github.com/spantaleev/matrix-docker-ansible-deploy/blob/master/docs/quick-start.md) — inventaire `hosts`, fichier `vars.yml`, prérequis et commandes.

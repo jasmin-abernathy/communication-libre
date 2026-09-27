@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 set -Eeuo pipefail
+
+[[ "${LEGACY_MATRIX_POC:-}" == "1" ]] || { printf '%s\n' "Ancien POC Matrix désactivé. Voir docs/decisions/0002-messagerie-web.md. Utiliser LEGACY_MATRIX_POC=1 pour une reprise volontaire." >&2; exit 2; }
 # shellcheck source=lib.sh
 # Le chemin est calculé pour permettre l'exécution hors du dépôt.
 # shellcheck disable=SC1091

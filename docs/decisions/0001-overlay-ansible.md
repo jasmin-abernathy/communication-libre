@@ -1,6 +1,6 @@
 # Décision 0001 — Overlay Ansible plutôt que fork ou Compose maison
 
-- Statut : accepté pour le POC
+- Statut : remplacé pour le prochain pilote par la [décision 0002](0002-messagerie-web.md) ; conservé comme historique
 - Date : 2026-09-02
 
 ## Contexte

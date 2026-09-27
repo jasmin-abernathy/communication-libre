@@ -1,66 +1,33 @@
-# Architecture envisagée
+# Architecture cible du pilote
 
-## Vue logique
+## Parcours participant
 
-| Composant | Rôle | Exposition |
+1. La personne ouvre l'URL du collectif sur téléphone ou ordinateur.
+2. Elle accepte une invitation et crée un seul compte Mattermost.
+3. Elle rejoint les canaux d'annonces et de discussion dans le navigateur.
+4. Elle teste les appels audio ; la vidéo de groupe, si nécessaire, s'ouvre par un lien Jitsi distinct dans le navigateur.
+
+L'application native est une option à évaluer après le premier essai, notamment si les notifications du navigateur ne suffisent pas.
+
+## Composants visés
+
+| Élément | Rôle | État |
 |---|---|---|
-| Reverse proxy | TLS, routage et en-têtes de sécurité | Internet |
-| Synapse | Serveur Matrix et comptes | Internet via proxy |
-| PostgreSQL | Données Matrix | Réseau privé uniquement |
-| Element Web | Client Web préconfiguré | Internet |
-| Element X | Client Android/iOS | Applications officielles au départ |
-| Jitsi Meet | Interface de visioconférence | Internet |
-| Jitsi Videobridge | Transport audio/vidéo | Ports WebRTC nécessaires |
-| Coturn | Relais lorsque la connexion directe échoue | Internet |
-| Supervision | Disponibilité, ressources et alertes | Accès restreint |
-| Sauvegardes | Restauration des services | Chiffrées, hors serveur |
+| Mattermost Team Edition | Messagerie Web, comptes, canaux, fichiers, audio et partage d'écran | Retenu, non déployé |
+| PostgreSQL | Base de données Mattermost | À installer avec le serveur |
+| Proxy HTTPS | TLS et accès public à une URL unique | À choisir et configurer |
+| Sauvegardes hors serveur | Restaurer la base, les fichiers et la configuration | À mettre en place et tester |
+| Jitsi | Vidéo de groupe par lien Web | Option à décider après les essais |
+| Matrix/Element, Coturn et playbook Ansible associé | Ancienne piste technique | Conservés hors du parcours actif |
 
-## Sous-domaines indicatifs
+Le premier déploiement doit éviter un service vidéo, un pont et un fournisseur d'identité supplémentaires. Le serveur nécessite des ressources et un accès système adaptés : un hébergement PHP mutualisé ne suffit pas.
 
-- `matrix.example.invalid` : API Matrix ;
-- `chat.example.invalid` : Element Web ;
-- `meet.example.invalid` : Jitsi ;
-- `turn.example.invalid` : TURN.
+## Sécurité et limites
 
-Aucun domaine réel ne doit être choisi avant validation du contexte et de l'organisation qui hébergera le pilote.
+Mattermost protège les échanges en transit avec TLS, mais sa messagerie standard n'est pas un salon chiffré de bout en bout. Le service, la base, les sauvegardes et les administrateurs appartiennent à la frontière de confiance du collectif. Ne pas utiliser ce pilote pour des échanges dont la confidentialité exige un chiffrement de bout en bout. Définir les droits, la rétention, la révocation et la restauration avant de faire entrer des données réelles.
 
-## Choix de départ
+Un lien Jitsi n'implique pas une connexion commune ni une synchronisation des membres. Évaluer l'accès des invités, la modération, le réseau et les limites de confidentialité séparément.
 
-- serveur unique adapté à 10–30 testeurs ;
-- PostgreSQL plutôt qu'une base locale ;
-- inscriptions publiques désactivées ;
-- administration restreinte ;
-- salons sensibles E2EE ;
-- fédération désactivée ou limitée ;
-- Jitsi authentifié pour la création des réunions ;
-- invités éventuellement autorisés à rejoindre une réunion par lien selon le test ;
-- rétention minimale des journaux compatible avec le diagnostic ;
-- vidéos désactivables et non obligatoires.
+## Frontière avec Verger Associations
 
-## Flux de confiance
-
-1. Les clients chiffrent le contenu des salons E2EE avant envoi.
-2. Synapse distribue et stocke les événements sans détenir automatiquement toutes les clés de déchiffrement.
-3. Les appareils et la récupération de clés deviennent des éléments critiques.
-4. Jitsi traite les flux média selon la configuration retenue ; ses fonctions annexes n'ont pas toutes les mêmes garanties.
-5. Un pont Telegram, s'il existe, constitue une frontière de confiance et reste exclu des salons sensibles.
-6. Les sauvegardes, journaux et consoles d'administration doivent être protégés séparément.
-
-## Limite fonctionnelle et interopérabilité
-
-Cette architecture transporte des échanges et fournit de la visioconférence. Les données officielles d'une association (membres, cotisations, décisions validées, archives) relèvent de ses outils métier et de son stockage documentaire, pas du serveur Matrix.
-
-Le pilote [Verger Associations](https://github.com/jasmin-abernathy/verger-associations) utilise Delta Chat et Webxdc pour son module « Réunions et décisions ». Matrix/Element ne prend pas en charge ce paquet Webxdc tel quel. Pour partager un résultat entre les projets, privilégier l'export d'un relevé validé en Markdown ou JSON versionné, avec son archivage officiel hors messagerie. Ne pas prévoir de synchronisation de salons ou de pont de contenus sensibles comme prérequis.
-
-## Points à trancher avant implémentation
-
-- méthode de déploiement et distribution Matrix ;
-- versions supportées ;
-- fournisseur de notifications mobiles et implications ;
-- politique de fédération ;
-- intégration Jitsi dans Element ;
-- méthode d'authentification ;
-- dimensionnement réseau/CPU ;
-- fréquence et durée des sauvegardes ;
-- observabilité compatible avec la minimisation des données ;
-- hébergeur français ou européen et juridiction.
+[Verger Associations](https://github.com/jasmin-abernathy/verger-associations) conserve les outils métier et l'archive officielle. Son module Webxdc sous Delta Chat ne s'exécute pas dans Mattermost. L'échange envisagé est le relevé validé exporté en Markdown ou JSON versionné, sans synchronisation automatique ni nouveau compte imposé par ce dépôt.

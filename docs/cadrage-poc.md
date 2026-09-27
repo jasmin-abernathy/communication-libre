@@ -1,80 +1,30 @@
-# Cadrage du POC
+# Cadrage du POC Web
 
 ## Hypothèse
 
-Un environnement Matrix/Element + Jitsi dédié peut couvrir une partie importante des usages Telegram/Zoom d'un collectif tout en renforçant la maîtrise technique, la réversibilité et la confidentialité des salons sensibles.
-
-## Population test
-
-- 10 à 30 volontaires ;
-- profils techniques et non techniques ;
-- Android, iOS et ordinateur ;
-- connexions fibre, Wi-Fi, 4G/5G et connexions dégradées ;
-- participation volontaire et données minimales.
+Un collectif de 10 à 30 personnes peut rejoindre une messagerie Mattermost auto-hébergée par **une URL et un compte**, sur mobile et ordinateur, sans téléchargement obligatoire. Les appels audio sont testés dans le même espace ; la vidéo de groupe n'est ajoutée que si le besoin est confirmé.
 
 ## Phases
 
-### Phase 0 — intérêt et contraintes
+1. **Laboratoire sans données réelles** : déploiement reproductible à créer, invitation fermée, sauvegarde/restauration, accès navigateur sur Android, iOS et ordinateur.
+2. **Pilote fermé** : annonces, discussions, fichiers, appels audio et partage d'écran avec 10 à 30 volontaires ; mesurer les notifications et les contraintes sur réseau mobile.
+3. **Bilan** : facilité d'arrivée, continuité des notifications, disponibilité, accessibilité, coût serveur et temps de maintenance.
+4. **Vidéo si nécessaire** : essai séparé de Jitsi par lien Web, avec tests de qualité et de modération ; aucune installation prévue dans la première phase.
 
-- publier la proposition ;
-- identifier un interlocuteur et des volontaires ;
-- relever les contraintes internes ;
-- obtenir une validation explicite avant d'utiliser tout nom, logo ou fichier de membres.
+## Critères de réussite
 
-### Phase 1 — laboratoire technique
-
-- déployer sans données réelles ;
-- tester Matrix, Element Web, Element X, Jitsi et TURN ;
-- documenter mises à jour, sauvegardes, restauration et supervision ;
-- réaliser un premier test de charge.
-
-### Phase 2 — pilote fermé
-
-- inscriptions sur invitation ;
-- comptes de test ;
-- salons d'annonces, discussion et E2EE ;
-- deux ou trois réunions Jitsi ;
-- questionnaire court après chaque étape.
-
-### Phase 3 — bilan
-
-- expérience utilisateur ;
-- qualité et disponibilité ;
-- incidents et risques ;
-- coûts d'hébergement ;
-- temps d'administration ;
-- conditions nécessaires à une éventuelle suite.
-
-## Critères de réussite proposés
-
-| Domaine | Mesure |
-|---|---|
-| Onboarding | Un non-technicien rejoint le bon espace et active la récupération de compte sans aide prolongée |
-| Mobile | Notifications reçues de manière fiable sur Android et iOS |
-| Messagerie | Messages, fichiers, réponses, mentions et annonces utilisables au quotidien |
-| Chiffrement | Appareils vérifiés et procédure de récupération comprise |
-| Visio | Tests reproductibles à 10, 20 puis 30 participants |
-| Réseau | Connexions directes et relayées via TURN testées |
-| Accessibilité | Parcours clavier, lecteur d'écran et lisibilité évalués |
-| Exploitation | Mise à jour, sauvegarde, restauration et révocation documentées |
-| Sobriété | Ressources et volume de données observés, vidéo non imposée |
-| Réversibilité | Export des configurations et changement d'hébergeur documentés |
+- Une personne non technique rejoint son canal avec une URL et une invitation, sans installer d'application.
+- Les fonctions essentielles restent utilisables sur mobile et ordinateur ; les limites des navigateurs sont documentées.
+- Les notifications sont suffisamment fiables pour le groupe, ou le besoin d'une application native facultative est constaté honnêtement.
+- Les appels audio fonctionnent sur deux réseaux distincts.
+- Le groupe sait quelles conversations ne doivent pas passer par ce pilote, faute de chiffrement de bout en bout des messages.
+- Sauvegarde, restauration, départ d'un membre et coûts d'administration sont mesurés.
+- Le parcours clavier, la lisibilité et le zoom sont vérifiés.
 
 ## Conditions d'arrêt
 
-Le pilote doit être interrompu ou limité si :
-
-- un incident de sécurité n'est pas maîtrisé ;
-- les sauvegardes/restaurations ne sont pas fiables ;
-- les notifications mobiles rendent la messagerie inutilisable ;
-- l'administration dépasse les moyens disponibles ;
-- les participants ne reçoivent pas une information claire sur les limites du système.
+Arrêter ou limiter le pilote si la restauration échoue, si les notifications le rendent inutilisable, si l'administration excède les moyens disponibles ou si les participants veulent y traiter des échanges exigeant un chiffrement de bout en bout.
 
 ## Hors périmètre initial
 
-- déploiement à l'échelle nationale ;
-- client mobile entièrement personnalisé ;
-- authentification reliée à une base militante ;
-- fédération ouverte ;
-- migration automatique de salons sensibles ;
-- promesse de remplacement complet de Telegram ou Zoom.
+Fédération Matrix, serveur Matrix, client mobile obligatoire, pont Telegram, synchronisation Verger Associations, vidéo de groupe installée d'emblée et déploiement national.

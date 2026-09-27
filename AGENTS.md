@@ -2,7 +2,7 @@
 
 ## Positionnement
 
-Ce dépôt porte un POC générique de communication libre pour collectifs. Ne jamais le présenter comme un projet officiel de La France insoumise ou d'une autre organisation sans validation explicite et traçable.
+Ce dépôt porte un POC générique de communication libre pour collectifs. Le choix actif du pilote est Mattermost dans le navigateur ; l'overlay Matrix/Element reste une ancienne piste et ne doit pas être présenté comme le déploiement cible. Ne jamais le présenter comme un projet officiel de La France insoumise ou d'une autre organisation sans validation explicite et traçable.
 
 ## Langue et documentation
 
@@ -15,7 +15,7 @@ Ce dépôt porte un POC générique de communication libre pour collectifs. Ne j
 
 - Ne jamais committer de secret, jeton, mot de passe, clé privée, sauvegarde réelle ou donnée personnelle.
 - Utiliser des fichiers `.env.example` avec valeurs factices.
-- Chiffrer les salons sensibles par défaut dans le POC.
+- Ne pas accueillir de conversations exigeant un chiffrement de bout en bout dans le pilote Mattermost standard ; ne jamais promettre que les messages y sont chiffrés de bout en bout.
 - Ne jamais décrire Matrix ou Jitsi comme garantissant une confidentialité absolue.
 - Documenter les métadonnées, journaux, sauvegardes, terminaux et ponts comme surfaces de risque.
 - Ne pas activer un pont Telegram pour des salons sensibles.

@@ -1,3 +1,5 @@
+> **Archive de l'ancienne piste Matrix/Element.** Ce contenu ne décrit pas la solution retenue pour le prochain pilote. Voir [la décision 0002](../docs/decisions/0002-messagerie-web.md). Ne pas utiliser ce document comme proposition ou procédure actuelle.
+
 # Infrastructure
 
 Le socle est un overlay sécurisé autour de `matrix-docker-ansible-deploy`.
