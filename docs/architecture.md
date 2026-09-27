@@ -46,6 +46,12 @@ Aucun domaine réel ne doit être choisi avant validation du contexte et de l'or
 5. Un pont Telegram, s'il existe, constitue une frontière de confiance et reste exclu des salons sensibles.
 6. Les sauvegardes, journaux et consoles d'administration doivent être protégés séparément.
 
+## Limite fonctionnelle et interopérabilité
+
+Cette architecture transporte des échanges et fournit de la visioconférence. Les données officielles d'une association (membres, cotisations, décisions validées, archives) relèvent de ses outils métier et de son stockage documentaire, pas du serveur Matrix.
+
+Le pilote [Verger Associations](https://github.com/jasmin-abernathy/verger-associations) utilise Delta Chat et Webxdc pour son module « Réunions et décisions ». Matrix/Element ne prend pas en charge ce paquet Webxdc tel quel. Pour partager un résultat entre les projets, privilégier l'export d'un relevé validé en Markdown ou JSON versionné, avec son archivage officiel hors messagerie. Ne pas prévoir de synchronisation de salons ou de pont de contenus sensibles comme prérequis.
+
 ## Points à trancher avant implémentation
 
 - méthode de déploiement et distribution Matrix ;

@@ -56,6 +56,14 @@ make register USER=personne-test
 
 Ne jamais committer le dossier `runtime/` : il contient les secrets du déploiement.
 
+## Frontière avec Verger Associations
+
+Ce POC évalue une **infrastructure de communication** pour des collectifs : comptes, salons, appels, hébergement, sauvegardes et migration progressive depuis Telegram/Zoom. Il ne développe ni registre d'adhérents, ni outil de décision, ni gestion associative.
+
+[Verger Associations](https://github.com/jasmin-abernathy/verger-associations) développe des **outils métier associatifs** (réunions, décisions, actions et exports). Son pilote actuel utilise Delta Chat et Webxdc. Ce choix ne constitue ni une dépendance à Matrix, ni une compatibilité automatique des mini-applications Webxdc avec Element.
+
+Les deux pilotes restent indépendants. Un relevé de décision exporté dans un format ouvert peut être partagé ou archivé depuis l'un ou l'autre environnement ; une intégration plus étroite exige un besoin constaté et une étude technique distincte.
+
 ## Principes
 
 - logiciel libre et infrastructure maîtrisable ;
