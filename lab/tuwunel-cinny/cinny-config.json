@@ -1,7 +1,7 @@
 {
   "defaultHomeserver": 0,
-  "homeserverList": ["localhost:8008"],
-  "allowCustomHomeservers": true,
+  "homeserverList": ["http://localhost:8008"],
+  "allowCustomHomeservers": false,
   "featuredCommunities": {
     "openAsDefault": false,
     "spaces": [],

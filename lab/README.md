@@ -52,7 +52,7 @@ cp .env.example .env
 docker compose --env-file .env up
 ```
 
-Ouvrir `http://127.0.0.1:8080`. Le homeserver de laboratoire est `localhost:8008` et la fédération est désactivée. Le jeton d'inscription est réservé au laboratoire. Pour des essais sur téléphone, remplacer cette configuration locale par un nom HTTPS de test et conserver la fédération désactivée tant que le besoin n'est pas démontré.
+Ouvrir `http://127.0.0.1:8080`. Le homeserver de laboratoire est `http://localhost:8008` et la fédération est désactivée. Le jeton d'inscription est réservé au laboratoire. Cinny est verrouillé sur ce homeserver local dans le laboratoire. Pour des essais sur téléphone, remplacer cette configuration locale par un nom HTTPS de test et conserver la fédération désactivée tant que le besoin n'est pas démontré.
 
 Arrêt sans effacer les données :
 
