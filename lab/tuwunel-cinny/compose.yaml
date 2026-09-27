@@ -14,7 +14,7 @@ services:
       TUWUNEL_ADDRESS: 0.0.0.0
       TUWUNEL_MAX_REQUEST_SIZE: "20000000"
       TUWUNEL_ALLOW_REGISTRATION: "true"
-      TUWUNEL_REGISTRATION_TOKEN: "${TUWUNEL_REGISTRATION_TOKEN:-lab-only-change-me}"
+      TUWUNEL_REGISTRATION_TOKEN: "${TUWUNEL_REGISTRATION_TOKEN:?Set TUWUNEL_REGISTRATION_TOKEN in .env}"
       TUWUNEL_ALLOW_FEDERATION: "false"
       TUWUNEL_TRUSTED_SERVERS: '[]'
     volumes:
@@ -29,7 +29,7 @@ services:
     ports:
       - "${CINNY_BIND:-127.0.0.1}:${CINNY_HTTP_PORT:-8080}:80"
     volumes:
-      - ./cinny-config.json:/app/config.json:ro
+      - ${CINNY_CONFIG_FILE:-./cinny-config.json}:/app/config.json:ro
 
 volumes:
   tuwunel-data:

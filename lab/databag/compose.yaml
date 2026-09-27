@@ -8,7 +8,7 @@ services:
     ports:
       - "${DATABAG_BIND:-127.0.0.1}:${DATABAG_PORT:-7000}:7000"
     environment:
-      ADMIN: "${DATABAG_ADMIN_PASSWORD:-lab-only-change-me}"
+      ADMIN: "${DATABAG_ADMIN_PASSWORD:?Set DATABAG_ADMIN_PASSWORD in .env}"
     volumes:
       - databag-data:/var/lib/databag
 

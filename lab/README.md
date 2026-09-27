@@ -109,6 +109,23 @@ Ne pas publier le laboratoire sur Internet juste pour tester les téléphones. U
 4. installer la racine de confiance du laboratoire uniquement sur les appareils de test ;
 5. faire pointer Cinny vers l'URL HTTPS réelle du homeserver pendant ce passage.
 
+La configuration versionnée de Cinny utilise `http://localhost:8008`, qui désigne **le téléphone lui-même** lorsqu'on ouvre Cinny depuis ce téléphone. La servir telle quelle en HTTPS causerait aussi une requête HTTP non sécurisée depuis une page HTTPS. Préparer une copie locale ignorée par Git et indiquer son chemin dans `.env` :
+
+```sh
+cd lab/tuwunel-cinny
+mkdir -p runtime
+cp cinny-config.json runtime/cinny-config.json
+# Dans runtime/cinny-config.json, remplacer homeserverList par
+# ["https://matrix.lab.example"] : choisir votre vrai nom de test reconnu par les appareils.
+# Dans .env, fixer CINNY_CONFIG_FILE=./runtime/cinny-config.json
+# Fixer TUWUNEL_SERVER_NAME avant le premier démarrage sur ce volume.
+docker compose --env-file .env config --quiet
+docker compose --env-file .env up -d --force-recreate cinny
+curl -fsS http://127.0.0.1:8080/config.json
+```
+
+Contrôler dans la réponse de `config.json` que l'URL HTTPS est bien celle accessible **depuis le navigateur du téléphone**, puis ouvrir l'interface par son URL HTTPS de test. Configurer le proxy pour servir Cinny et l'API Matrix sur leurs noms HTTPS respectifs ; un DNS local doit résoudre ces noms sur les appareils, y compris lorsque le test bascule vers le réseau mobile (où un DNS limité au Wi-Fi ne suffit pas). Pour ce dernier scénario, prévoir un accès autorisé distinct ou noter « non testé » ; ne pas ouvrir une instance factice sans contrôle d'accès. Ne pas changer `TUWUNEL_SERVER_NAME` sur un volume déjà initialisé. La procédure dépend du réseau et du proxy disponibles : elle reste à exécuter et vérifier avant les scénarios A4/A5/A7.
+
 Sur iPhone/iPad, un certificat racine installé manuellement doit ensuite recevoir la confiance SSL/TLS complète dans les réglages système. Ce choix ajoute une étape aux testeurs mais évite d'ouvrir le laboratoire sur Internet.
 
 Pour le **Web Push iPhone/iPad**, HTTPS ne suffit pas : Apple prend en charge Web Push pour les **web apps ajoutées à l'écran d'accueil**, pas pour un simple onglet Safari. Le protocole doit donc distinguer « navigateur pur » et « ajout à l'écran d'accueil ». Cette étape n'est pas un téléchargement depuis un store, mais elle constitue bien une friction supplémentaire par rapport au critère « une URL suffit ».
