@@ -2,7 +2,7 @@
 
 ## Positionnement
 
-Ce dépôt porte un POC générique de communication libre pour collectifs. Le choix du logiciel attend la comparaison Databag, Tuwunel + Cinny et Mattermost ; l'overlay Matrix/Element reste une ancienne piste et ne doit pas être présenté comme le déploiement cible. Ne jamais le présenter comme un projet officiel de La France insoumise ou d'une autre organisation sans validation explicite et traçable.
+Ce dépôt porte un POC générique de communication libre pour collectifs. Le laboratoire prioritaire compare **Databag** et **Tuwunel + Cinny**. Mattermost n'est plus la piste principale : le conserver seulement comme référence de comparaison si les deux alternatives légères échouent. L'overlay Matrix/Element historique ne doit pas être présenté comme le déploiement cible. Ne jamais présenter le projet comme un outil officiel de La France insoumise ou d'une autre organisation sans validation explicite et traçable.
 
 ## Langue et documentation
 
@@ -10,13 +10,13 @@ Ce dépôt porte un POC générique de communication libre pour collectifs. Le c
 - Expliquer les termes techniques à leur première occurrence.
 - Mettre à jour le README et la documentation concernée avec toute évolution structurante.
 - Distinguer clairement ce qui est implémenté, envisagé, testé et validé.
+- Ne pas transformer un document de relais entre modèles en documentation permanente du dépôt.
 
 ## Sécurité
 
 - Ne jamais committer de secret, jeton, mot de passe, clé privée, sauvegarde réelle ou donnée personnelle.
 - Utiliser des fichiers `.env.example` avec valeurs factices.
-- Ne pas accueillir de conversations exigeant un chiffrement de bout en bout sans garantie vérifiée de bout en bout ; ne jamais présenter Mattermost standard comme chiffré de bout en bout.
-- Ne jamais décrire Matrix ou Jitsi comme garantissant une confidentialité absolue.
+- Ne jamais généraliser une propriété de chiffrement : pour Databag, distinguer les sujets `sealed` ; pour Matrix, vérifier réellement le parcours de clés et de récupération du client retenu.
 - Documenter les métadonnées, journaux, sauvegardes, terminaux et ponts comme surfaces de risque.
 - Ne pas activer un pont Telegram pour des salons sensibles.
 - Prévoir mises à jour, sauvegardes testées, supervision, révocation des comptes et récupération après perte d'appareil.
@@ -24,11 +24,12 @@ Ce dépôt porte un POC générique de communication libre pour collectifs. Le c
 ## Développement et infrastructure
 
 - Favoriser un déploiement reproductible et documenté.
-- Épingler les versions de production ; documenter leur mise à jour.
+- Épingler les versions ou commits de laboratoire ; documenter leur mise à jour.
 - Séparer configuration versionnée et secrets d'exploitation.
-- Ajouter des contrôles automatisés avant tout déploiement.
+- Ajouter des contrôles automatisés avant tout déploiement réel.
 - Préserver la possibilité de changer d'hébergeur.
 - Viser d'abord un pilote de 10 à 30 personnes ; ne pas surdimensionner prématurément.
+- Garder Databag et Tuwunel + Cinny dans des laboratoires isolés ; ne pas créer de pont entre eux pour la comparaison initiale.
 
 ## Budget GitHub Actions
 

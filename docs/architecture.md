@@ -1,35 +1,53 @@
 # Architecture envisagée pour le pilote
 
-Le logiciel reste à choisir après [comparaison des briques GitHub](recherche-briques-messagerie-2026-09-27.md). Le tableau Mattermost ci-dessous décrit une hypothèse, non une cible validée.
+Le laboratoire compare deux architectures légères avant de retenir une messagerie. Mattermost n'est plus une cible prioritaire et l'ancien déploiement Matrix/Element reste historique.
 
-## Parcours participant
+## Parcours participant visé
 
-1. La personne ouvre l'URL du collectif sur téléphone ou ordinateur.
-2. Elle accepte une invitation et crée un compte dans la messagerie retenue.
-3. Elle rejoint les canaux d'annonces et de discussion dans le navigateur.
-4. Elle teste les appels audio ; la vidéo de groupe, si nécessaire, s'ouvre par un lien Jitsi distinct dans le navigateur.
+1. La personne ouvre une URL sur téléphone ou ordinateur.
+2. Elle accepte une invitation et crée son compte.
+3. Elle rejoint un groupe et échange sans installer d'application.
+4. Le navigateur reçoit idéalement les alertes essentielles ; si ce point échoue sur un système donné, l'application native reste une option facultative à discuter après mesure.
+5. La vidéo de groupe, si elle devient nécessaire, est traitée comme un service séparé.
 
-L'application native est une option à évaluer après le premier essai, notamment si les notifications du navigateur ne suffisent pas.
-
-## Composants visés
+## Architecture A — Databag
 
 | Élément | Rôle | État |
 |---|---|---|
-| Mattermost Team Edition | Messagerie Web, comptes, canaux, fichiers, audio et partage d'écran | Hypothèse, non déployée |
-| PostgreSQL | Base de données Mattermost | À installer avec le serveur |
-| Proxy HTTPS | TLS et accès public à une URL unique | À choisir et configurer |
-| Sauvegardes hors serveur | Restaurer la base, les fichiers et la configuration | À mettre en place et tester |
-| Jitsi | Vidéo de groupe par lien Web | Option à décider après les essais |
-| Matrix/Element, Coturn et playbook Ansible associé | Ancienne piste technique | Conservés hors du parcours actif |
+| Databag | serveur, interface Web, comptes, groupes, sujets et appels 1:1 | laboratoire préparé |
+| volume Databag | données de test | isolé |
+| HTTPS | exigé pour un vrai test Web Push sur téléphone | à préparer sur machine de test |
+| STUN/TURN | appels à travers certains réseaux | hors premier test texte |
 
-Le premier déploiement doit éviter un service vidéo, un pont et un fournisseur d'identité supplémentaires. Le serveur nécessite des ressources et un accès système adaptés : un hébergement PHP mutualisé ne suffit pas.
+Databag a l'avantage d'un service principal unique. Le chiffrement de bout en bout est lié aux sujets `sealed` et doit être expliqué comme tel. Les appels de groupe ne sont pas considérés comme disponibles tant que le backlog amont les présente encore comme travail à réaliser.
 
-## Sécurité et limites
+## Architecture B — Tuwunel + Cinny
 
-Mattermost protège les échanges en transit avec TLS, mais sa messagerie standard n'est pas un salon chiffré de bout en bout. Le service, la base, les sauvegardes et les administrateurs appartiennent à la frontière de confiance du collectif. Ne pas utiliser ce pilote pour des échanges dont la confidentialité exige un chiffrement de bout en bout. Définir les droits, la rétention, la révocation et la restauration avant de faire entrer des données réelles.
+| Élément | Rôle | État |
+|---|---|---|
+| Tuwunel | homeserver Matrix | laboratoire `v1.9.3` préparé |
+| Cinny | interface Web | laboratoire `v4.12.7` préparé |
+| volume Tuwunel | base de données Matrix | isolé |
+| HTTPS | navigation mobile, sécurité et tests d'alertes | à préparer sur machine de test |
+| service d'appel/TURN | appels si retenus | secondaire |
 
-Un lien Jitsi n'implique pas une connexion commune ni une synchronisation des membres. Évaluer l'accès des invités, la modération, le réseau et les limites de confidentialité séparément.
+Le laboratoire désactive la fédération. Le client et le serveur restent deux briques, mais l'interface est servie dans le navigateur et Tuwunel évite la pile Synapse/Element plus lourde étudiée auparavant.
 
-## Frontière avec Verger Associations
+## Anciennes hypothèses
 
-[Verger Associations](https://github.com/jasmin-abernathy/verger-associations) conserve les outils métier et l'archive officielle. Son module Webxdc sous Delta Chat ne s'exécute pas dans Mattermost. L'échange envisagé est le relevé validé exporté en Markdown ou JSON versionné, sans synchronisation automatique ni nouveau compte imposé par ce dépôt.
+Mattermost reste un comparateur fonctionnel mais n'est pas développé dans le laboratoire actuel. Matrix/Element + Jitsi, Coturn et l'overlay Ansible existant sont conservés uniquement comme historique technique et nécessitent `LEGACY_MATRIX_POC=1` pour leurs commandes.
+
+## Sécurité et exploitation communes
+
+Avant tout pilote avec de vraies personnes :
+
+- HTTPS valide ;
+- inscriptions fermées ou à jeton ;
+- sauvegarde puis restauration réussie ;
+- révocation d'un compte vérifiée ;
+- procédure de perte d'appareil comprise ;
+- périmètre du chiffrement documenté sans promesse globale ;
+- journaux et captures de test expurgés ;
+- notifications mesurées sur Android/iPhone, Wi-Fi et réseau mobile.
+
+La décision finale est **en attente des essais appareils** décrits dans [`test-appareils.md`](test-appareils.md).

@@ -1,48 +1,50 @@
 # Recherche GitHub — briques libres pour Communication libre
 
-Date : 2026-09-27. Cette recherche prépare un laboratoire ; elle ne valide ni un déploiement ni les promesses de sécurité des projets amont.
+Date de vérification : 2026-09-27. Cette note distingue les fonctions annoncées par les projets amont des fonctions qu'il reste à vérifier sur nos appareils.
 
 ## Besoin
 
-Une invitation et une URL suffisent pour entrer dans le groupe depuis un téléphone ou un ordinateur. Il faut éviter de faire installer plusieurs applications. Le nombre de composants **côté serveur** compte aussi, mais la fiabilité des notifications et la confidentialité priment sur un décompte de conteneurs.
+Une invitation et une URL doivent suffire pour rejoindre le groupe depuis téléphone ou ordinateur. L'application native peut exister, mais ne doit pas être obligatoire par défaut. Le laboratoire privilégie le moins de dépendances serveur possible tout en gardant une confidentialité compréhensible et une exploitation réaliste.
 
-## Trois assemblages plausibles
+## Pistes prioritaires
 
-| Assemblage | Ce qu'il apporte | Briques nécessaires au départ | Vérification décisive |
-|---|---|---|---|
-| **Databag seul**, puis Jitsi seulement si besoin | Serveur léger, client Web et mobile, groupes, chiffrement des sujets « sealed » | Databag + HTTPS ; Jitsi distinct pour la vidéo de groupe | Inviter, répondre et recevoir des alertes sur Android/iPhone ; stabilité des groupes ; comprendre et activer le chiffrement. |
-| **Tuwunel + Cinny**, puis Jitsi si besoin | Serveur Matrix moins lourd que Synapse, client Web mobile, salons chiffrés compatibles Matrix | Tuwunel + fichiers statiques Cinny + HTTPS ; Jitsi distinct si demandé | Récupération des clés, premier message, notifications mobile navigateur, appels et maintenance. |
-| **Mattermost Team Edition**, puis Jitsi si besoin | Messagerie Web mature et audio intégré | Mattermost + PostgreSQL + HTTPS | Notifications sans application et acceptation des messages non chiffrés de bout en bout. |
+| Assemblage | Version/état vérifié | Licence | Points forts à confirmer | Risque principal à tester |
+|---|---|---|---|---|
+| **Databag** | `main` verrouillé sur `45343338582b394f4f5fdb4b7e271ea1dc8dd5fd`, dernier commit observé le 2026-06-14 | Apache-2.0 | un service principal, Web Push dans le client Web, sujets `sealed` E2EE | bug de groupe ouvert en août 2026, récupération de clé, alertes navigateur fermé |
+| **Tuwunel + Cinny** | Tuwunel `v1.9.3` (2026-09-25) + Cinny `v4.12.7` (2026-09-15) | Apache-2.0 + AGPL-3.0-only | pile Matrix plus légère, client Web, salons chiffrés | récupération des clés, mobile Web/PWA, notifications, maturité récente des appels |
 
-**Autre piste** : Prosody + Converse.js apporte XMPP, interface Web responsive et OMEMO. Elle demanderait une configuration du serveur, de l'archivage, des groupes et des notifications ; elle n'est pas prioritaire tant que les deux premières combinaisons n'ont pas été essayées.
+### Databag
 
-## Ce que montre le code amont
+La documentation amont annonce un serveur léger, une interface Web, des groupes, des appels audio/vidéo et des alertes mobiles. Le code Web actuel demande l'autorisation de notification, enregistre un service worker `push.js` et crée une souscription Push : **le mécanisme existe donc dans le code**, mais son fonctionnement téléphone verrouillé reste à tester.
 
-- [Databag](https://github.com/balzack/databag) annonce un serveur capable de fonctionner sur matériel modeste. Son exemple Docker utilise un service applicatif et un volume de données, sans PostgreSQL séparé. Son client Web contient un service worker pour les notifications. Le chiffrement de bout en bout concerne les sujets **scellés** ; sa documentation explique qu'il n'offre pas la confidentialité persistante (*forward secrecy*) de certains protocoles plus avancés. Les appels audio/vidéo nécessitent un relais STUN/TURN selon le réseau, et les **appels de groupe** figurent encore dans le backlog. Des tickets ouverts concernent une panne de groupe et les notifications : ne pas l'utiliser pour des échanges sensibles avant essai et examen de sécurité.
-- [Tuwunel](https://github.com/matrix-construct/tuwunel) est un serveur Matrix en Rust destiné à remplacer Synapse dans un déploiement léger. [Cinny](https://github.com/cinnyapp/cinny) est une interface Matrix Web distribuable comme fichiers statiques. Cette combinaison conserve le protocole Matrix, mais ne garantit pas de bonnes notifications dans un navigateur mobile ; Cinny remplace actuellement son SDK Matrix, ce qui augmente le besoin de tester la version choisie.
-- [Converse.js](https://github.com/conversejs/converse.js) peut être servi comme application Web autonome et prend en charge XMPP et OMEMO. Il nécessite un serveur XMPP tel que Prosody. Ses notifications documentées sont surtout celles du navigateur de bureau ; vérifier l'usage en arrière-plan sur téléphone.
-- Mattermost est une option sérieuse pour un groupe qui accepte la visibilité des messages côté serveur. Son fonctionnement Web ne suffit pas à démontrer la réception d'alertes quand le navigateur est fermé.
+Le chiffrement de bout en bout concerne les sujets **sealed**. L'interface permet de générer une clé de chiffrement ; cette distinction doit être visible dans le protocole humain. Le backlog amont liste encore les appels de groupe comme fonctionnalité à faire.
 
-## Assemblage proposé pour le laboratoire
+Un ticket ouvert le 2026-08-25 décrit un crash lorsque certains membres d'un groupe ne sont pas mutuellement ajoutés comme contacts. Ce scénario est bloquant pour notre usage s'il est reproductible et doit être testé avant toute recommandation.
 
-1. **Essai A : Databag sans vidéo**. Une instance isolée sans données sensibles, 4 à 6 personnes, invitation, groupe, sujet scellé, notification avec écran verrouillé, reprise après 24 h.
-2. **Essai B : Tuwunel + Cinny sans vidéo** avec les mêmes personnes et les mêmes tâches. Observer également la vérification des appareils et la récupération des clés.
-3. **Comparer** temps d'entrée, erreurs, messages manqués, confiance comprise par les participants, ressources serveur et temps d'administration.
-4. Ajouter Jitsi **uniquement** si le groupe demande une vidéo à plusieurs. Tester l'accès par lien Web sur Android, iPhone et ordinateur, sans annoncer une intégration de comptes.
-5. Garder Mattermost comme point de comparaison si A et B échouent sur l'ergonomie, et obtenir l'accord du groupe sur sa limite de confidentialité avant tout pilote.
+La dernière release GitHub affichée est `v1.1.1021`, publiée en 2024, alors que le dépôt a encore reçu des commits en 2026. Pour le laboratoire, le choix est donc de **verrouiller un commit source précis** plutôt que d'utiliser `balzack/databag:latest` sans traçabilité.
 
-Aucun pont entre protocoles n'est nécessaire au premier pilote. Un pont imposerait une autre frontière de confiance et rendrait l'expérience plus difficile à expliquer. Aucun de ces logiciels n'exécute directement le module Webxdc de Verger Associations ; les relevés exportés restent leur point de jonction.
+### Tuwunel
 
-## Critère de sortie
+Tuwunel `v1.9.3` a été publié le 2026-09-25. Le projet fournit des images OCI et une configuration Docker Compose officielle ; son workflow de publication crée un tag correspondant à la release, puis les alias `preview` et `latest`. Le laboratoire utilise le tag `v1.9.3` et désactive la fédération.
 
-Retenir une seule messagerie pour les participants. Si aucun navigateur mobile ne reçoit les alertes essentielles de manière satisfaisante, expliquer qu'une application **facultative** pourrait être nécessaire pour les notifications, et laisser le groupe arbitrer avant de migrer.
+Un ticket sur les pushers apparu avec `1.8.3` en août 2026 a été fermé après correction. Cela réduit l'incertitude côté homeserver, sans prouver la fiabilité des notifications du navigateur Cinny.
 
-## Sources
+### Cinny
 
-- [Databag : README et déploiement](https://github.com/balzack/databag)
-- [Databag : conception et limites du chiffrement](https://github.com/balzack/databag/blob/main/doc/design_overview.md)
-- [Databag : backlog](https://github.com/balzack/databag/blob/main/doc/backlog.md)
-- [Databag : tickets ouverts](https://github.com/balzack/databag/issues)
-- [Tuwunel](https://github.com/matrix-construct/tuwunel)
-- [Cinny](https://github.com/cinnyapp/cinny)
-- [Converse.js](https://github.com/conversejs/converse.js)
+Cinny `v4.12.7` a été publié le 2026-09-15 et son workflow de release publie également une image sur GHCR et Docker Hub. L'application reste d'abord un client Web : une demande PWA est encore ouverte et une proposition de clients mobiles de 2025 décrit explicitement les limites du navigateur mobile, notamment pour les notifications et le stockage sur iOS.
+
+Le code actuel enregistre bien un service worker, principalement utilisé pour la gestion des médias authentifiés ; cela ne suffit pas à considérer le Web Push mobile comme validé. Les appels voix/vidéo ont reçu des évolutions en 2026, donc leur parcours doit être testé séparément.
+
+## Comparateur secondaire : Mattermost
+
+Mattermost reste documenté pour mémoire, mais n'est plus au centre de la décision. Son interface Web est mature, mais la messagerie standard n'apporte pas le chiffrement de bout en bout recherché pour certains usages et son schéma n'est pas retenu comme point de départ. Aucun laboratoire Mattermost n'est ajouté.
+
+## Assemblage retenu pour le laboratoire
+
+1. **Essai A : Databag**, construit depuis le commit source verrouillé, sans vidéo de groupe.
+2. **Essai B : Tuwunel `v1.9.3` + Cinny `v4.12.7`**, fédération désactivée.
+3. Même fiche d'essai et mêmes données factices pour les deux.
+4. Aucun pont entre protocoles.
+5. Décision finale uniquement après essais sur appareils réels.
+
+Les configurations sont dans [`../lab/`](../lab/README.md) et la grille commune dans [`test-appareils.md`](test-appareils.md).

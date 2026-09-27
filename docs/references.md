@@ -1,33 +1,44 @@
 # Références techniques et réutilisation
 
-## Socle retenu pour le prochain pilote
+Vérifiées le 2026-09-27 pour préparer le laboratoire.
 
-- [Mattermost Team Edition](https://docs.mattermost.com/product-overview/editions-and-offerings.html) — messagerie auto-hébergée accessible dans le navigateur ; nouveau déploiement encore à construire.
-- [Disponibilité des clients](https://docs.mattermost.com/end-user-guide/access/client-availability) — fonctions Web et mobile.
-- [Appels et limites de la vidéo](https://docs.mattermost.com/end-user-guide/collaborate/make-calls) — audio et partage d'écran ; vidéo limitée.
-- [Options de chiffrement](https://docs.mattermost.com/deployment-guide/encryption-options.html) — ne pas assimiler TLS et chiffrement de bout en bout.
-- [Jitsi Meet](https://jitsi.org/jitsi-meet/) — option pour une vidéo de groupe par lien navigateur.
+## Alternatives prioritaires
 
-## Ancien socle Matrix, conservé comme référence historique
+### Databag
 
-- [matrix-docker-ansible-deploy](https://github.com/spantaleev/matrix-docker-ansible-deploy) — playbook Ansible/Docker sous AGPL-3.0-or-later ; révision actuellement verrouillée dans `upstream.env`.
-- [Démarrage rapide du playbook](https://github.com/spantaleev/matrix-docker-ansible-deploy/blob/master/docs/quick-start.md) — inventaire `hosts`, fichier `vars.yml`, prérequis et commandes.
-- [Configuration Jitsi dans le playbook](https://github.com/spantaleev/matrix-docker-ansible-deploy/blob/master/docs/configuring-playbook-jitsi.md).
-- [Contrôle de la fédération](https://github.com/spantaleev/matrix-docker-ansible-deploy/blob/master/docs/configuring-playbook-federation.md).
-- [Configuration TURN](https://github.com/spantaleev/matrix-docker-ansible-deploy/blob/master/docs/configuring-playbook-turn.md).
+- dépôt `balzack/databag` — serveur et clients, Apache-2.0 ;
+- `README.md` — installation Docker, Web/mobile, sujets `sealed`, appels et notifications annoncées ;
+- `app/client/web/src/settings/useSettings.hook.ts` — demande d'autorisation de notification, enregistrement du service worker et souscription Web Push ;
+- `doc/design_overview.md` — modèle de chiffrement et limites ;
+- `doc/backlog.md` — appels de groupe encore au backlog ;
+- issue `#195` — crash de groupe signalé le 2026-08-25 ;
+- issue `#181` — diagnostic de notifications/UnifiedPush encore ouvert.
 
-## Composants amont
+Le laboratoire verrouille le commit `45343338582b394f4f5fdb4b7e271ea1dc8dd5fd` plutôt qu'un tag `latest` mutable.
 
-- [Synapse](https://github.com/element-hq/synapse) — serveur Matrix ; son image Docker recommande PostgreSQL pour un usage réel et n'inclut pas TURN.
-- [Element Web](https://github.com/element-hq/element-web) — client Web configurable par `config.json`.
-- [Element X](https://github.com/element-hq/element-x-android) et [Element X iOS](https://github.com/element-hq/element-x-ios) — clients mobiles.
-- [Jitsi Meet Docker](https://github.com/jitsi/docker-jitsi-meet) — déploiement Docker officiel de Jitsi.
-- [Rôle Ansible Jitsi](https://github.com/mother-of-all-self-hosting/ansible-role-jitsi) — rôle utilisé par le playbook Matrix, avec authentification, invités, lobby et réglages de sobriété.
-- [Coturn](https://github.com/coturn/coturn) — serveur STUN/TURN.
-- [mautrix-telegram](https://github.com/mautrix/telegram) — pont de transition éventuel, exclu des salons sensibles.
+### Tuwunel
 
-## Ce qui est adapté dans ce dépôt
+- dépôt `matrix-construct/tuwunel` — serveur Matrix sous Apache-2.0 ;
+- release `v1.9.3` publiée le 2026-09-25 ;
+- `docs/deploying/docker.md` et `docs/deploying/docker-compose.yml` — images OCI, variables de configuration et délai d'arrêt nécessaire aux migrations ;
+- workflow `.github/workflows/publish.yml` — publication des tags de release et des alias `preview`/`latest` ;
+- issue `#543` — problème de pushers de `1.8.3`, fermé le 2026-08-19.
 
-Le fichier d'exemple `vars.yml.example` reprend les noms de variables documentés par le playbook Matrix et le rôle Jitsi, puis les adapte au POC : inscriptions et fédération fermées, authentification Jitsi interne, Gravatar désactivé, intégrations externes neutralisées et vidéo limitée.
+### Cinny
 
-Les sources tierces ne sont pas recopiées : `scripts/fetch-upstream.sh` récupère la révision verrouillée. Toute redistribution ou modification d'un composant amont doit respecter sa propre licence.
+- dépôt `cinnyapp/cinny` — client Matrix Web sous AGPL-3.0-only ;
+- release `v4.12.7` publiée le 2026-09-15 ;
+- `config.json` — homeservers et routage configurables ;
+- `src/sw.ts` — service worker actuel ;
+- workflow `.github/workflows/prod-deploy.yml` — publication de l'image Docker/GHCR à chaque release ;
+- issue `#17` — demande PWA toujours ouverte ;
+- issue `#2400` — limites mobiles et proposition de wrapper natif ;
+- issue `#2743` — évolution 2026 des appels voix/vidéo.
+
+## Comparateurs et historique
+
+Mattermost est conservé uniquement comme comparateur secondaire. L'ancien socle `matrix-docker-ansible-deploy` + Element + Jitsi + Coturn reste une référence historique protégée par `LEGACY_MATRIX_POC=1` et ne doit pas être confondu avec le laboratoire courant.
+
+## Règle de réutilisation
+
+Les sources tierces ne sont pas copiées dans ce dépôt. Les configurations de laboratoire référencent des versions ou commits amont précis. Toute modification ou redistribution d'un composant amont doit respecter sa propre licence.

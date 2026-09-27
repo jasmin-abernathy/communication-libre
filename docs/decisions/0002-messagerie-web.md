@@ -1,30 +1,24 @@
 # Décision 0002 — Messagerie accessible dans le navigateur
 
-- Statut : hypothèse Mattermost en réévaluation après recherche GitHub du 2026-09-27
+- Statut : laboratoire Databag et Tuwunel + Cinny ; décision finale en attente
 - Date : 2026-09-27
 
 ## Motif
 
-Le critère prioritaire est de réduire les installations demandées aux participants. Le socle Matrix/Element + Jitsi initial multiplie les composants serveur et son expérience mobile incite à installer Element X. Delta Chat convient au pilote Webxdc de Verger Associations, mais une application y reste le parcours ordinaire. Mattermost propose une messagerie utilisable sur mobile et ordinateur dans le navigateur, avec appels audio et partage d'écran. La vidéo de groupe est traitée comme un besoin distinct.
+Le besoin prioritaire est simple : une personne doit pouvoir rejoindre un collectif depuis une URL sur téléphone ou ordinateur, sans installer une série d'applications. L'ancienne pile Matrix/Element + Jitsi est trop lourde pour ce premier objectif. Mattermost a ensuite été envisagé pour simplifier le parcours, mais sa limite de confidentialité côté serveur et son architecture ne justifient pas d'en faire le point de départ tant que des alternatives plus légères restent plausibles.
 
 ## Décision
 
-1. Tester Mattermost Team Edition comme hypothèse Web ; le choix final du logiciel attend la comparaison avec Databag et Tuwunel + Cinny, ainsi que les essais mobiles et de confidentialité.
-2. Tester d'abord le navigateur, sans demander d'application. Évaluer ensuite une application facultative uniquement si les notifications ou l'ergonomie mobile posent problème.
-3. Ne pas installer Jitsi par défaut. Tester un lien Jitsi Web si la vidéo de groupe est confirmée.
-4. Conserver l'ancien code Matrix en référence, mais bloquer ses commandes Makefile ordinaires ; construire un nouveau déploiement avant tout accueil de testeurs.
-5. Ne pas présenter les messages Mattermost comme chiffrés de bout en bout. Exclure les échanges qui l'exigent et réexaminer le choix si ce besoin devient prioritaire.
+1. Construire et tester d'abord **Databag** et **Tuwunel + Cinny** dans deux environnements isolés.
+2. Mesurer le même parcours sur les deux solutions : invitation, compte, message, groupe, reprise après 24 h, récupération, notifications navigateur fermé, révocation et restauration.
+3. Pour Databag, tester séparément les sujets ordinaires et `sealed`, et reproduire le scénario de groupe signalé comme défaillant en août 2026.
+4. Pour Tuwunel + Cinny, vérifier réellement les salons chiffrés, la vérification des appareils, la récupération des clés et les limites des notifications Web mobiles.
+5. Ne pas ajouter de vidéo de groupe au laboratoire initial. L'évaluer ensuite comme service séparé si le besoin est confirmé.
+6. Garder Mattermost comme **comparateur secondaire**, sans nouveau déploiement tant que les deux alternatives prioritaires n'ont pas échoué sur des critères essentiels.
+7. Conserver l'ancien code Matrix/Element uniquement comme référence protégée par `LEGACY_MATRIX_POC=1`.
 
 ## Conséquences
 
-Le parcours d'arrivée vise une URL et un compte, quel que soit le logiciel retenu. Côté serveur, Mattermost, PostgreSQL, un accès HTTPS et des sauvegardes restent à maintenir. La fiabilité des notifications dans un navigateur mobile, les appels et l'accessibilité doivent être vérifiés réellement. Le module Webxdc de Verger Associations ne fonctionne pas dans Mattermost ; seul son relevé exporté peut être partagé sans développement supplémentaire.
+Aucune solution n'est déclarée retenue aujourd'hui. Les fichiers de [`lab/`](../../lab/README.md) sont conçus pour des données factices et les résultats devront être consignés dans [`docs/test-appareils.md`](../test-appareils.md).
 
-## Sources amont
-
-- [Clients et accès Web Mattermost](https://docs.mattermost.com/end-user-guide/access/client-availability)
-- [Appels Mattermost et limites de la vidéo](https://docs.mattermost.com/end-user-guide/collaborate/make-calls)
-- [Éditions Mattermost](https://docs.mattermost.com/product-overview/editions-and-offerings.html)
-- [Chiffrement Mattermost](https://docs.mattermost.com/deployment-guide/encryption-options.html)
-- [Jitsi Meet](https://jitsi.org/jitsi-meet/)
-
-La [recherche des briques disponibles](../recherche-briques-messagerie-2026-09-27.md) complète cette décision provisoire.
+Le choix final doit privilégier le plus petit ensemble de composants qui satisfait réellement le groupe, sans sacrifier une garantie de confidentialité nécessaire ni masquer une dépendance à une application native.

@@ -1,38 +1,51 @@
 # Communication libre
 
-POC indépendant de communication pour collectifs : **une adresse Web pour discuter**, sans application à installer pour le pilote. Ce projet n'est l'outil officiel d'aucune organisation.
+POC indépendant de communication pour collectifs : **une adresse Web pour discuter**, sans application obligatoire pour le pilote. Ce projet n'est l'outil officiel d'aucune organisation.
 
-## Choix en réévaluation : assemblage Web léger
+## Direction actuelle : deux alternatives légères à éprouver
 
-La piste Mattermost est désormais **une hypothèse parmi plusieurs**. Le pilote pourrait utiliser Mattermost, ou un assemblage plus léger de briques libres. La décision dépendra d'essais sur mobile et des garanties de confidentialité nécessaires.
+Le laboratoire se concentre maintenant sur deux pistes :
 
-L'hypothèse Mattermost utilisait **Mattermost Team Edition auto-hébergé** pour les messages, fils de discussion, annonces et fichiers. Une personne reçoit un lien d'invitation, crée son compte et utilise son navigateur sur téléphone ou ordinateur. L'application mobile reste facultative ; les notifications mobiles et la navigation doivent être vérifiées en situation réelle.
+1. **Databag** : serveur léger, client Web intégré et sujets `sealed` chiffrés de bout en bout ;
+2. **Tuwunel + Cinny** : serveur Matrix léger et interface Web moderne, avec salons chiffrés Matrix.
 
-Les appels audio et le partage d'écran de Mattermost seront testés en premier. La **vidéo de groupe** n'entre pas dans la première installation : si elle est nécessaire, un lien Jitsi ouvert dans le navigateur sera évalué ensuite. Personne n'aura à installer Jitsi pour rejoindre la réunion depuis un navigateur compatible.
+**Mattermost n'est plus la piste prioritaire.** Il reste une référence de comparaison si les deux solutions légères échouent sur l'ergonomie ou l'exploitation, mais aucun nouveau laboratoire Mattermost n'est construit.
 
-**Limite de confidentialité :** la messagerie Mattermost standard ne fournit pas le chiffrement de bout en bout des salons envisagé auparavant avec Matrix. Le serveur et ses administrateurs ont accès aux données nécessaires à son fonctionnement. Une hypothèse Mattermost ne doit donc pas accueillir de conversations exigeant cette protection ; TLS, accès restreints et sauvegardes protégées restent nécessaires. Si le chiffrement de bout en bout devient indispensable, il faudra réexaminer le choix de messagerie.
+La vidéo de groupe n'est pas un prérequis de la messagerie. Si le besoin est confirmé, elle sera évaluée séparément afin de ne pas alourdir le parcours d'inscription et l'exploitation du premier pilote.
 
 ## État réel
 
-- **Critère produit établi** : accès Web sans installation obligatoire ; messagerie et vidéo de groupe peuvent être deux briques distinctes.
-- **Choix de logiciel en cours** : comparer Databag, Tuwunel + Cinny et Mattermost sur un parcours mobile identique. Voir [la recherche GitHub](docs/recherche-briques-messagerie-2026-09-27.md).
-- **À construire après les essais** : déploiement de la solution retenue, invitations fermées, sauvegarde/restauration et suivi des notifications sur appareils réels.
-- **Aucun service déployé** : domaine, serveur, dimensionnement et protocole de test restent à choisir.
-- **Ancien prototype conservé** : le code `Matrix/Element + Jitsi` et ses scripts sont historiques. Ils ne déploient **pas** le nouveau choix. Les commandes `make init/fetch/check/install/reconcile/register` exigent `LEGACY_MATRIX_POC=1` pour éviter un déploiement par erreur. Leurs guides sont archivés comme références de l'ancienne option.
+- **Critère produit établi** : URL + compte, navigateur mobile et ordinateur, sans téléchargement obligatoire.
+- **Laboratoires préparés** : configurations Databag et Tuwunel + Cinny dans [`lab/`](lab/README.md), avec versions verrouillées et données de test isolées.
+- **Essais appareils à faire** : invitations, groupes, chiffrement, récupération, notifications navigateur fermé, Wi-Fi/réseau mobile et restauration. Voir [`docs/test-appareils.md`](docs/test-appareils.md).
+- **Décision finale en attente** : aucun logiciel n'est déclaré gagnant avant ces essais.
+- **Aucun service public déployé** : le laboratoire n'accueille ni vrais participants ni conversations sensibles.
+- **Ancien prototype conservé** : le code `Matrix/Element + Jitsi` et ses scripts restent historiques. Les commandes correspondantes exigent `LEGACY_MATRIX_POC=1` pour éviter un déploiement accidentel.
 
-Voir [la décision provisoire](docs/decisions/0002-messagerie-web.md), [l'architecture cible](docs/architecture.md) et [le cadrage du pilote](docs/cadrage-poc.md). Ne pas suivre `docs/installation.md` pour installer Mattermost.
+## Points de vigilance déjà identifiés
+
+### Databag
+
+Le Web client contient un mécanisme Web Push avec service worker, mais sa fiabilité sur téléphone verrouillé doit être mesurée. Le chiffrement de bout en bout concerne les sujets **sealed**, pas l'ensemble des échanges. Un ticket amont ouvert en août 2026 décrit aussi un crash de groupe lorsque certains membres ne se sont pas ajoutés mutuellement : ce scénario fait partie des tests obligatoires.
+
+### Tuwunel + Cinny
+
+Tuwunel est activement maintenu et Cinny reste une interface Web légère, mais l'expérience mobile de Cinny et les notifications lorsque le navigateur est fermé ne doivent pas être supposées fiables. La gestion des clés et la récupération après perte de session sont des critères de sortie, pas des détails techniques secondaires.
 
 ## Frontière avec Verger Associations
 
-Ce dépôt porte la **communication** : accès, messages, salons, appels et exploitation. [Verger Associations](https://github.com/jasmin-abernathy/verger-associations) porte les **outils métier** : réunions, décisions, actions et exports. Son module Webxdc actuel fonctionne dans Delta Chat, **pas** dans les messageries comparées ici. Les pilotes restent indépendants ; un relevé validé exporté en Markdown ou JSON peut être partagé et archivé dans l'un ou l'autre contexte.
+Ce dépôt porte la **communication** : accès, messages, salons, appels éventuels et exploitation. [Verger Associations](https://github.com/jasmin-abernathy/verger-associations) porte les **outils métier** : réunions, décisions, actions et exports. Les dépôts restent séparés. Un relevé validé exporté en Markdown ou JSON peut être échangé sans fusionner les architectures.
 
 ## Principes du pilote
 
-- 10 à 30 volontaires, sans données sensibles ;
+- 10 à 30 volontaires maximum après validation du laboratoire ;
 - logiciel libre et hébergement maîtrisé, sans publicité ni IA imposée ;
-- un compte et une URL, application facultative ;
-- inscriptions fermées, sauvegarde et restauration testées ;
-- observation de la simplicité, des notifications, des coûts et du temps d'administration ;
+- compte et URL suffisants, application facultative ;
+- inscriptions fermées ;
+- sauvegarde et restauration testées avant données réelles ;
+- confidentialité expliquée fonction par fonction ;
 - aucun pont Telegram ni migration automatique dans la première phase.
 
-Le code du projet est sous la licence indiquée dans [LICENSE](LICENSE). Les logiciels amont gardent leurs propres licences.
+Voir aussi [`docs/architecture.md`](docs/architecture.md), [`docs/cadrage-poc.md`](docs/cadrage-poc.md) et la [décision 0002](docs/decisions/0002-messagerie-web.md).
+
+Le code propre à ce dépôt est sous la licence indiquée dans [LICENSE](LICENSE). Les logiciels amont gardent leurs propres licences.

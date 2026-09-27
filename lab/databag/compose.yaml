@@ -1,0 +1,16 @@
+name: communication-libre-databag-lab
+
+services:
+  databag:
+    build:
+      context: https://github.com/balzack/databag.git#45343338582b394f4f5fdb4b7e271ea1dc8dd5fd
+    restart: "no"
+    ports:
+      - "${DATABAG_BIND:-127.0.0.1}:${DATABAG_PORT:-7000}:7000"
+    environment:
+      ADMIN: "${DATABAG_ADMIN_PASSWORD:-lab-only-change-me}"
+    volumes:
+      - databag-data:/var/lib/databag
+
+volumes:
+  databag-data:
